@@ -21,6 +21,14 @@ using Newtonsoft.Json.Linq;
 MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 ```
 
+### Get your Access Token:
+
+```C#
+String accessToken = mp.getAccessToken();
+
+Response.Write(accessToken);
+```
+
 <a name="checkout"></a>
 ## Using MercadoPago Checkout
 
