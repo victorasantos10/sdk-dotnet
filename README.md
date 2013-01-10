@@ -48,6 +48,8 @@ JObject preference = mp.createPreference("{'items':[{'title':'sdk-dotnet','quant
 Response.Write(preference);
 ```
 
+<a href="http://developers.mercadopago.com/documentacion/recibir-pagos#glossary">Others items to use</a>
+
 ### Update an existent Checkout preference:
 
 ```C#
@@ -75,6 +77,8 @@ foreach (JObject payment in searchResult.SelectToken ("response.results")) {
 	Response.Write(payment["collection"]["status"]);
 }
 ```
+
+<a href="http://developers.mercadopago.com/documentacion/busqueda-de-pagos-recibidos">More search examples</a>
 
 ### Receiving IPN notification:
 
@@ -105,3 +109,4 @@ JObject result = mp.refundPayment("ID");
 // Show result
 Response.Write(result);
 ```
+<a href=http://developers.mercadopago.com/documentacion/devolucion-y-cancelacion> About Cancel & Refund </a>
