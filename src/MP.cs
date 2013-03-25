@@ -15,15 +15,26 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.1.5";
+		public static readonly String version = "0.1.8";
 
 		private readonly String client_id;
 		private readonly String client_secret;
 		private JObject access_data = null;
+		private bool sandbox = false;
 		
 		public MP (String client_id, String client_secret) {
 			this.client_id = client_id;
 			this.client_secret = client_secret;
+		}
+
+		public bool sandboxMode () {
+			return this.sandbox;
+		}
+
+		public bool sandboxMode (bool enable) {
+			this.sandbox = enable;
+
+			return this.sandbox;
 		}
 		
 		/**
@@ -59,8 +70,10 @@ namespace mercadopago {
 			} catch (Exception e) {
 				return JObject.Parse(e.Message);
 			}
+
+			String uriPrefix = this.sandbox ? "/sandbox" : "";
 			
-			JObject paymentInfo = RestClient.get ("/collections/notifications/" + id + "?access_token=" + accessToken);
+			JObject paymentInfo = RestClient.get (uriPrefix + "/collections/notifications/" + id + "?access_token=" + accessToken);
 			
 			return paymentInfo;
 		}
@@ -129,7 +142,9 @@ namespace mercadopago {
 			
 			String filtersQuery = this.buildQuery (filters);
 			
-			JObject collectionResult = RestClient.get ("/collections/search?"+filtersQuery+"&access_token="+accessToken);
+			String uriPrefix = this.sandbox ? "/sandbox" : "";
+			
+			JObject collectionResult = RestClient.get (uriPrefix + "/collections/search?"+filtersQuery+"&access_token="+accessToken);
 			return collectionResult;
 		}
 	
