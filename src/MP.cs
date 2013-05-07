@@ -15,7 +15,7 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.1.8";
+		public static readonly String version = "0.2.0";
 
 		private readonly String client_id;
 		private readonly String client_secret;
@@ -63,7 +63,7 @@ namespace mercadopago {
 		 * @param id
 		 * @return
 		 */
-		public JObject getPaymentInfo (String id) {
+		public JObject getPayment (String id) {
 			String accessToken;
 			try {
 				accessToken = this.getAccessToken ();
@@ -76,6 +76,28 @@ namespace mercadopago {
 			JObject paymentInfo = RestClient.get (uriPrefix + "/collections/notifications/" + id + "?access_token=" + accessToken);
 			
 			return paymentInfo;
+		}
+		
+		public JObject getPaymentInfo (String id) {
+			return this.getPayment (id);
+		}
+
+		/**
+		 * Get information for specific authorized payment
+		 * @param id
+		 * @return
+		 */
+		public JObject getAuthorizedPayment (String id) {
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return JObject.Parse(e.Message);
+			}
+			
+			JObject authorizedPaymentInfo = RestClient.get ("/authorized_payments/" + id + "?access_token=" + accessToken);
+			
+			return authorizedPaymentInfo;
 		}
 		
 		/**
@@ -118,6 +140,28 @@ namespace mercadopago {
 					);
 			
 			JObject response = RestClient.put ("/collections/" + id + "?access_token=" + accessToken, cancelStatus);
+			
+			return response;
+		}
+		
+		/**
+		 * Cancel preapproval payment
+		 * @param id
+		 * @return
+		 */
+		public JObject cancelPreapprovalPayment (String id) {
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return JObject.Parse(e.Message);
+			}
+
+			JObject cancelStatus = new JObject (
+						new JProperty ("status", "cancelled")
+					);
+			
+			JObject response = RestClient.put ("/preapproval/" + id + "?access_token=" + accessToken, cancelStatus);
 			
 			return response;
 		}
@@ -206,6 +250,44 @@ namespace mercadopago {
 			
 			JObject preferenceResult = RestClient.get ("/checkout/preferences/"+id+"?access_token="+accessToken);
 			return preferenceResult;
+		}
+		
+		/**
+		 * Create a preapproval payment
+		 * @param preference
+		 * @return
+		 */
+		public JObject createPreapprovalPayment (String preapprovalPayment) {
+			JObject preapprovalPaymentJSON = JObject.Parse (preapprovalPayment);
+			return this.createPreapprovalPayment(preapprovalPaymentJSON);
+		}
+		public JObject createPreapprovalPayment (JObject preapprovalPayment) {
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return JObject.Parse(e.Message);
+			}
+			
+			JObject preapprovalPaymentResult = RestClient.post ("/preapproval?access_token="+accessToken, preapprovalPayment);
+			return preapprovalPaymentResult;
+		}
+		
+		/**
+		 * Get a preapproval payment
+		 * @param id
+		 * @return
+		 */
+		public JObject getPreapprovalPayment (String id) {
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return JObject.Parse(e.Message);
+			}
+			
+			JObject preapprovalPaymentResult = RestClient.get ("/preapproval/"+id+"?access_token="+accessToken);
+			return preapprovalPaymentResult;
 		}
 		
 		/*****************************************************************************************************/
