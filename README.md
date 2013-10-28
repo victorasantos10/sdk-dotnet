@@ -10,10 +10,11 @@
 1. Copy bin/mercadopago.dll and bin/Newtonsoft.Json.dll to your project desired folder.
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
-	* Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
-	* Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
-	* México: [https://www.mercadopago.com/mlm/herramientas/aplicaciones](https://www.mercadopago.com/mlm/herramientas/aplicaciones)
-	* Venezuela: [https://www.mercadopago.com/mlv/herramientas/aplicaciones](https://www.mercadopago.com/mlv/herramientas/aplicaciones)
+    * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
+    * Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
+    * México: [https://www.mercadopago.com/mlm/herramientas/aplicaciones](https://www.mercadopago.com/mlm/herramientas/aplicaciones)
+    * Venezuela: [https://www.mercadopago.com/mlv/herramientas/aplicaciones](https://www.mercadopago.com/mlv/herramientas/aplicaciones)
+    * Colombia: [https://www.mercadopago.com/mco/herramientas/aplicaciones](https://www.mercadopago.com/mco/herramientas/aplicaciones)
 
 ```C#
 using mercadopago;
@@ -68,15 +69,15 @@ Response.Write(preference);
 ```C#
 // Sets the filters you want
 Dictionary<String, String> filters = new Dictionary<String, String> ();
-	filters.Add("site_id", "MLA"); // Argentina: MLA; Brasil: MLB
-	filters.Add("external_reference", "Bill001");
+    filters.Add("site_id", "MLA"); // Argentina: MLA; Brasil: MLB; Mexico: MLM; Venezuela: MLV; Colombia: MCO
+    filters.Add("external_reference", "Bill001");
       
 // Search payment data according to filters
 JObject searchResult = mp.searchPayment (filters);
 
 foreach (JObject payment in searchResult.SelectToken ("response.results")) {
-	Response.Write(payment["collection"]["id"]);
-	Response.Write(payment["collection"]["status"]);
+    Response.Write(payment["collection"]["id"]);
+    Response.Write(payment["collection"]["status"]);
 }
 ```
 
@@ -85,10 +86,11 @@ foreach (JObject payment in searchResult.SelectToken ("response.results")) {
 ### Receiving IPN notification:
 
 * Go to **Mercadopago IPN configuration**:
-	* Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
-	* Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)
-	* México: [https://www.mercadopago.com/mlm/herramientas/notificaciones](https://www.mercadopago.com/mlm/herramientas/notificaciones)
-	* Venezuela: [https://www.mercadopago.com/mlv/herramientas/notificaciones](https://www.mercadopago.com/mlv/herramientas/notificaciones)<br />	
+    * Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
+    * Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)
+    * México: [https://www.mercadopago.com/mlm/herramientas/notificaciones](https://www.mercadopago.com/mlm/herramientas/notificaciones)
+    * Venezuela: [https://www.mercadopago.com/mlv/herramientas/notificaciones](https://www.mercadopago.com/mlv/herramientas/notificaciones)
+    * Colombia: [https://www.mercadopago.com/mco/herramientas/notificaciones](https://www.mercadopago.com/mco/herramientas/notificaciones)<br />    
 
 ```C#
 JObject payment_info = mp.getPaymentInfo("ID");
