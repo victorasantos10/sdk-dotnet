@@ -38,7 +38,7 @@ Response.Write(accessToken);
 ### Get an existent Checkout preference:
 
 ```C#
-JObject preference = mp.getPreference("PREFERENCE_ID");
+Hashtable preference = mp.getPreference("PREFERENCE_ID");
 
 Response.Write(preference);
 ```
@@ -46,7 +46,7 @@ Response.Write(preference);
 ### Create a Checkout preference:
 
 ```C#
-JObject preference = mp.createPreference("{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");    
+Hashtable preference = mp.createPreference("{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");    
 
 Response.Write(preference);
 ```
@@ -56,7 +56,7 @@ Response.Write(preference);
 ### Update an existent Checkout preference:
 
 ```C#
-JObject preference = mp.updatePreference("PREFERENCE_ID", "{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'USD','unit_price':2}]}");    
+Hashtable preference = mp.updatePreference("PREFERENCE_ID", "{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'USD','unit_price':2}]}");    
 
 Response.Write(preference);
 ```
@@ -73,9 +73,9 @@ Dictionary<String, String> filters = new Dictionary<String, String> ();
     filters.Add("external_reference", "Bill001");
       
 // Search payment data according to filters
-JObject searchResult = mp.searchPayment (filters);
+Hashtable searchResult = mp.searchPayment (filters);
 
-foreach (JObject payment in searchResult.SelectToken ("response.results")) {
+foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
     Response.Write(payment["collection"]["id"]);
     Response.Write(payment["collection"]["status"]);
 }
@@ -93,7 +93,7 @@ foreach (JObject payment in searchResult.SelectToken ("response.results")) {
     * Colombia: [https://www.mercadopago.com/mco/herramientas/notificaciones](https://www.mercadopago.com/mco/herramientas/notificaciones)<br />    
 
 ```C#
-JObject payment_info = mp.getPaymentInfo("ID");
+Hashtable payment_info = mp.getPaymentInfo("ID");
 
 Response.Write(payment_info["response"]);
 ```    
@@ -101,7 +101,7 @@ Response.Write(payment_info["response"]);
 ### Cancel (only for pending payments):
 
 ```C#
-JObject result = mp.cancelPayment("ID");
+Hashtable result = mp.cancelPayment("ID");
 
 // Show result
 Response.Write(result);
@@ -110,7 +110,7 @@ Response.Write(result);
 ### Refund (only for accredited payments):
 
 ```C#
-JObject result = mp.refundPayment("ID");
+Hashtable result = mp.refundPayment("ID");
 
 // Show result
 Response.Write(result);
