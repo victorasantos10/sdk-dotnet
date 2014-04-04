@@ -7,8 +7,7 @@
     <body>
 		<%-- Include Mercadopago library --%>
 		<%@ Import Namespace="mercadopago" %>
-		<%@ Import Namespace="Newtonsoft.Json" %>
-		<%@ Import Namespace="Newtonsoft.Json.Linq" %>
+		<%@ Import Namespace="System.Collections" %>
 		<%@ Import Namespace="System.Collections.Generic" %>
         <%
         /**
@@ -28,10 +27,10 @@
 			filters.Add("site_id", "MLA"); // Argentina: MLA; Brasil: MLB
       
         // Search payment data according to filters
-        JObject searchResult = mp.searchPayment (filters);
+        Hashtable searchResult = mp.searchPayment (filters);
         
         // Show payment information
-            foreach (JObject payment in searchResult.SelectToken ("response.results")) {
+            foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
                 Response.Write(payment["collection"]["id"]+"<br>");
             }
             %>

@@ -7,8 +7,7 @@
     <body>
 		<%-- Include Mercadopago library --%>
 		<%@ Import Namespace="mercadopago" %>
-		<%@ Import Namespace="Newtonsoft.Json" %>
-		<%@ Import Namespace="Newtonsoft.Json.Linq" %>
+		<%@ Import Namespace="System.Collections" %>
 		<%@ Import Namespace="System.Collections.Generic" %>
         <%
         /**
@@ -32,14 +31,14 @@
             filters.Add("operation_type", "regular_payment");
 
         // Search payment data according to filters
-        JObject searchResult = mp.searchPayment (filters);
+        Hashtable searchResult = mp.searchPayment (filters);
         
         // Show payment information
         %>
         <table border='1'>
             <tr><th>id</th><th>site_id</th><th>external_reference</th><th>status</th></tr>
             <%
-            foreach (JObject payment in searchResult.SelectToken ("response.results")) {
+            foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
                 %>
                 <tr>
                     <td><%=payment["collection"]["id"]%></td>

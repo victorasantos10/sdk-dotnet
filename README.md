@@ -7,7 +7,7 @@
 <a name="usage"></a>
 ## Usage:
 
-1. Copy bin/mercadopago.dll and bin/Newtonsoft.Json.dll to your project desired folder.
+1. Copy bin/mercadopago.dll to your project desired folder.
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
@@ -18,8 +18,6 @@
 
 ```C#
 using mercadopago;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 ```
