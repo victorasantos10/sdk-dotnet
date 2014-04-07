@@ -299,7 +299,6 @@ namespace mercadopago {
 				val = HttpUtility.UrlEncode (val);
 				query [index++] = enumerator.Current.Key + "=" + val;
 			}
-				
 			return String.Join ("&", query);
 		}
 		
@@ -354,7 +353,11 @@ namespace mercadopago {
 			
 			private static void setData (HttpWebRequest request, Object data, String contentType) {
 				if (data != null) {
-					String dataString = data.ToString ();
+					String dataString;
+					if (data is Hashtable)
+						dataString = JSON.JsonEncode (data);
+					else
+						dataString = data.ToString ();
 					if (dataString.Length > 0) {
 						using (Stream requestStream = request.GetRequestStream()) {
 							using (StreamWriter writer = new StreamWriter(requestStream)) {
