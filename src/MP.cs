@@ -16,7 +16,7 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.2.0";
+		public static readonly String version = "0.3.0";
 
 		private readonly String client_id;
 		private readonly String client_secret;
