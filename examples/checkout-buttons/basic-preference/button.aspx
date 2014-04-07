@@ -1,12 +1,11 @@
 <%@ Page Language="c#" %>
 <%@ Import Namespace="mercadopago" %>
-<%@ Import Namespace="Newtonsoft.Json" %>
-<%@ Import Namespace="Newtonsoft.Json.Linq" %>
+<%@ Import Namespace="System.Collections" %>
 
 	<%
     	MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
     	
-    	JObject preference = mp.createPreference("{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");    
+    	Hashtable preference = mp.createPreference("{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");    
     %>
     
 <!doctype html>
