@@ -44,7 +44,7 @@ Response.Write(preference);
 ### Create a Checkout preference:
 
 ```C#
-Hashtable preference = mp.createPreference("{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'ARS','unit_price':10.5}]}");    
+Hashtable preference = mp.createPreference("{\"items\":[{\"title\":\"sdk-dotnet\",\"quantity\":1,\"currency_id\":\"ARS\",\"unit_price\":10.5}]}");
 
 Response.Write(preference);
 ```
@@ -54,7 +54,7 @@ Response.Write(preference);
 ### Update an existent Checkout preference:
 
 ```C#
-Hashtable preference = mp.updatePreference("PREFERENCE_ID", "{'items':[{'title':'sdk-dotnet','quantity':1,'currency_id':'USD','unit_price':2}]}");    
+Hashtable preference = mp.updatePreference("PREFERENCE_ID", "{\"items\":[{\"title\":\"sdk-dotnet\",\"quantity\":1,\"currency_id\":\"USD\",\"unit_price\":2}]}");
 
 Response.Write(preference);
 ```
