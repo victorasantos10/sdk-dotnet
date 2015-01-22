@@ -114,3 +114,29 @@ Hashtable result = mp.refundPayment("ID");
 Response.Write(result);
 ```
 <a href=http://developers.mercadopago.com/documentacion/devolucion-y-cancelacion> About Cancel & Refund </a>
+
+### Generic resources methods
+
+You can access any other resource from the MercadoPago API using the generic methods:
+
+```C#
+// Get a resource, with optional URL params. Also you can disable authentication for public APIs
+mp.get ("/resource/uri", [params], [authenticate=true]);
+
+// Create a resource with "data" and optional URL params.
+mp.post ("/resource/uri", data, [params]);
+
+// Update a resource with "data" and optional URL params.
+mp.put ("/resource/uri", data, [params]);
+
+// Delete a resource with optional URL params.
+mp.delete ("/resource/uri", [params]);
+```
+
+ For example, if you want to get the Sites list (no params and no authentication):
+
+```C#
+Hashtable result = mp.get ("/sites", null, false);
+
+Response.Write(result);
+```
