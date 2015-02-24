@@ -9,6 +9,8 @@
 
 1. Copy bin/mercadopago.dll to your project desired folder.
 
+### ...with your credentials:
+
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
     * Brazil: [https://www.mercadopago.com/mlb/ferramentas/aplicacoes](https://www.mercadopago.com/mlb/ferramentas/aplicacoes)
@@ -20,6 +22,14 @@
 using mercadopago;
 
 MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
+```
+
+### ...with your long live access token:
+
+```C#
+using mercadopago;
+
+MP mp = new MP ("LL_ACCESS_TOKEN");
 ```
 
 ### Get your Access Token:
