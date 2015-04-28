@@ -16,7 +16,7 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.3.0";
+		public static readonly String version = "0.3.1";
 
 		private readonly String client_id;
 		private readonly String client_secret;
@@ -288,6 +288,157 @@ namespace mercadopago {
 			return preapprovalPaymentResult;
 		}
 		
+		/**
+		 * Generic resource get
+		 * @param uri
+		 * @param params
+		 * @param authenticate
+		 * @return
+		 */
+		public Hashtable get (String uri, Dictionary<String, String> params, bool authenticate) {
+			if (params == null) {
+				params = new Dictionary<String, String> ();
+			}
+			if (authenticate) {
+				String accessToken;
+				try {
+					accessToken = this.getAccessToken ();
+				} catch (Exception e) {
+					return (Hashtable) JSON.JsonDecode(e.Message);
+				}
+
+				params.Add ("access_token", accessToken);
+			}
+
+			if (params.Count > 0) {
+				uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			}
+			
+			Hashtable result = RestClient.get (uri);
+			return result;
+		}
+		
+		/**
+		 * Generic resource get
+		 * @param uri
+		 * @param authenticate
+		 * @return
+		 */
+		public Hashtable get (String uri, bool authenticate) {
+			return this.get (uri, null, authenticate);
+		}
+
+		/**
+		 * Generic resource get
+		 * @param uri
+		 * @param params
+		 * @return
+		 */
+		public Hashtable get (String uri, Dictionary<String, String> params) {
+			return this.get (uri, params, true);
+		}
+
+		/**
+		 * Generic resource post
+		 * @param uri
+		 * @param data
+		 * @return
+		 */
+		public Hashtable post (String uri, String data) {
+			return this.post (uri, data, null);
+		}
+		public Hashtable post (String uri, String data, Dictionary<String, String> params) {
+			Hashtable dataJSON = (Hashtable) JSON.JsonDecode (data);
+			return this.post (uri, dataJSON, params);
+		}
+		public Hashtable post (String uri, Hashtable data) {
+			return this.post (uri, data, null);
+		}
+		public Hashtable post (String uri, Hashtable data, Dictionary<String, String> params) {
+			if (params == null) {
+				params = new Dictionary<String, String> ();
+			}
+
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return (Hashtable) JSON.JsonDecode(e.Message);
+			}
+
+			params.Add ("access_token", accessToken);
+
+			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			
+			Hashtable result = RestClient.post (uri, data);
+			return result;
+		}
+		
+		/**
+		 * Generic resource put
+		 * @param uri
+		 * @param data
+		 * @return
+		 */
+		public Hashtable put (String uri, String data) {
+			return this.put (uri, data, null);
+		}
+		public Hashtable put (String uri, String data, Dictionary<String, String> params) {
+			Hashtable dataJSON = (Hashtable) JSON.JsonDecode (data);
+			return this.put (uri, dataJSON, params);
+		}
+		public Hashtable put (String uri, Hashtable data) {
+			return this.put (uri, data, null);
+		}
+		public Hashtable put (String uri, Hashtable data, Dictionary<String, String> params) {
+			if (params == null) {
+				params = new Dictionary<String, String> ();
+			}
+
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return (Hashtable) JSON.JsonDecode(e.Message);
+			}
+
+			params.Add ("access_token", accessToken);
+
+			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			
+			Hashtable result = RestClient.put (uri, data);
+			return result;
+		}
+		
+		/**
+		 * Generic resource delete
+		 * @param uri
+		 * @param params
+		 * @return
+		 */
+		public Hashtable delete (String uri) {
+			return this.delete (uri, null);
+		}
+		public Hashtable delete (String uri, Dictionary<String, String> params) {
+			if (params == null) {
+				params = new Dictionary<String, String> ();
+			}
+
+			String accessToken;
+			try {
+				accessToken = this.getAccessToken ();
+			} catch (Exception e) {
+				return (Hashtable) JSON.JsonDecode(e.Message);
+			}
+
+			params.Add ("access_token", accessToken);
+
+			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			
+			Hashtable result = RestClient.delete (uri);
+			return result;
+		}
+		
 		/*****************************************************************************************************/
 		private String buildQuery<T> (Dictionary<String, T> parameters) {
 			String[] query = new String[parameters.Count];
@@ -378,6 +529,10 @@ namespace mercadopago {
 
 			public static Hashtable put (String uri, Object data, String contentType = MIME_JSON) {
 				return exec ("PUT", uri, data, contentType);
+			}
+
+			public static Hashtable delete (String uri, String contentType = MIME_JSON) {
+				return exec ("DELETE", uri, null, contentType);
 			}
 		}
 	}
