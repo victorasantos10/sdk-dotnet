@@ -1,13 +1,19 @@
 # MercadoPago SDK module for Payments integration
 
-* [Usage](#usage)
-* [Using MercadoPago Checkout](#checkout)
-* [Using MercadoPago Payment collection](#payments)
+* [Install](#install)
+* [Basic checkout](#basic-checkout)
+* [Customized checkout](#custom-checkout)
+* [Generic methods](#generic-methods)
 
-<a name="usage"></a>
-## Usage:
+<a name="install"></a>
+## Install
 
-1. Copy bin/mercadopago.dll to your project desired folder.
+Copy `bin/mercadopago.dll` to your project desired folder.
+
+<a name="basic-checkout"></a>
+## Basic checkout
+
+### Configure your credentials
 
 * Get your **CLIENT_ID** and **CLIENT_SECRET** in the following address:
     * Argentina: [https://www.mercadopago.com/mla/herramientas/aplicaciones](https://www.mercadopago.com/mla/herramientas/aplicaciones)
@@ -22,18 +28,9 @@ using mercadopago;
 MP mp = new MP ("CLIENT_ID", "CLIENT_SECRET");
 ```
 
-### Get your Access Token:
+### Preferences
 
-```C#
-String accessToken = mp.getAccessToken();
-
-Response.Write(accessToken);
-```
-
-<a name="checkout"></a>
-## Using MercadoPago Checkout
-
-### Get an existent Checkout preference:
+#### Get an existent Checkout preference
 
 ```C#
 Hashtable preference = mp.getPreference("PREFERENCE_ID");
@@ -41,7 +38,7 @@ Hashtable preference = mp.getPreference("PREFERENCE_ID");
 Response.Write(preference);
 ```
 
-### Create a Checkout preference:
+#### Create a Checkout preference
 
 ```C#
 Hashtable preference = mp.createPreference("{\"items\":[{\"title\":\"sdk-dotnet\",\"quantity\":1,\"currency_id\":\"ARS\",\"unit_price\":10.5}]}");
@@ -49,9 +46,7 @@ Hashtable preference = mp.createPreference("{\"items\":[{\"title\":\"sdk-dotnet\
 Response.Write(preference);
 ```
 
-<a href="http://developers.mercadopago.com/documentacion/recibir-pagos#glossary">Others items to use</a>
-
-### Update an existent Checkout preference:
+#### Update an existent Checkout preference:
 
 ```C#
 Hashtable preference = mp.updatePreference("PREFERENCE_ID", "{\"items\":[{\"title\":\"sdk-dotnet\",\"quantity\":1,\"currency_id\":\"USD\",\"unit_price\":2}]}");
@@ -59,10 +54,9 @@ Hashtable preference = mp.updatePreference("PREFERENCE_ID", "{\"items\":[{\"titl
 Response.Write(preference);
 ```
 
-<a name="payments"></a>
-## Using MercadoPago Payment
+### Payments/Collections
 
-### Searching:
+#### Search for payments
 
 ```C#
 // Sets the filters you want
@@ -79,24 +73,15 @@ foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
 }
 ```
 
-<a href="http://developers.mercadopago.com/documentacion/busqueda-de-pagos-recibidos">More search examples</a>
-
-### Receiving IPN notification:
-
-* Go to **Mercadopago IPN configuration**:
-    * Argentina: [https://www.mercadopago.com/mla/herramientas/notificaciones](https://www.mercadopago.com/mla/herramientas/notificaciones)
-    * Brasil: [https://www.mercadopago.com/mlb/ferramentas/notificacoes](https://www.mercadopago.com/mlb/ferramentas/notificacoes)
-    * México: [https://www.mercadopago.com/mlm/herramientas/notificaciones](https://www.mercadopago.com/mlm/herramientas/notificaciones)
-    * Venezuela: [https://www.mercadopago.com/mlv/herramientas/notificaciones](https://www.mercadopago.com/mlv/herramientas/notificaciones)
-    * Colombia: [https://www.mercadopago.com/mco/herramientas/notificaciones](https://www.mercadopago.com/mco/herramientas/notificaciones)<br />    
+#### Get payment data
 
 ```C#
-Hashtable payment_info = mp.getPaymentInfo("ID");
+Hashtable payment_info = mp.getPayment("ID");
 
 Response.Write(payment_info["response"]);
 ```    
 
-### Cancel (only for pending payments):
+#### Cancel (only for pending payments)
 
 ```C#
 Hashtable result = mp.cancelPayment("ID");
@@ -105,7 +90,7 @@ Hashtable result = mp.cancelPayment("ID");
 Response.Write(result);
 ```
 
-### Refund (only for accredited payments):
+#### Refund (only for accredited payments)
 
 ```C#
 Hashtable result = mp.refundPayment("ID");
@@ -113,4 +98,73 @@ Hashtable result = mp.refundPayment("ID");
 // Show result
 Response.Write(result);
 ```
-<a href=http://developers.mercadopago.com/documentacion/devolucion-y-cancelacion> About Cancel & Refund </a>
+
+<a name="custom-checkout"></a>
+## Customized checkout
+
+### Configure your credentials
+
+* Get your **ACCESS_TOKEN** in the following address:
+    * Argentina: [https://www.mercadopago.com/mla/account/credentials](https://www.mercadopago.com/mla/account/credentials)
+    * Brazil: [https://www.mercadopago.com/mlb/account/credentials](https://www.mercadopago.com/mlb/account/credentials)
+    * Mexico: [https://www.mercadopago.com/mlm/account/credentials](https://www.mercadopago.com/mlm/account/credentials)
+    * Venezuela: [https://www.mercadopago.com/mlv/account/credentials](https://www.mercadopago.com/mlv/account/credentials)
+    * Colombia: [https://www.mercadopago.com/mco/account/credentials](https://www.mercadopago.com/mco/account/credentials)
+
+```C#
+using mercadopago;
+
+MP mp = new MP ("ACCESS_TOKEN");
+```
+
+### Create payment
+
+```C#
+mp.post ("/v1/payments", paymentData);
+```
+
+### Create customer
+
+```C#
+mp.post ("/v1/customers", "{'email': 'email@test.com'}");
+```
+
+### Get customer
+
+```C#
+mp.get ("/v1/customers/CUSTOMER_ID");
+```
+
+* View more Custom checkout related APIs in Developers Site
+    * Argentina: [https://labs.mercadopago.com.ar/developers](https://labs.mercadopago.com.ar/developers)
+    * Brazil: [https://labs.mercadopago.com.br/developers](https://labs.mercadopago.com.br/developers)
+    * Mexico: [https://labs.mercadopago.com.mx/developers](https://labs.mercadopago.com.mx/developers)
+    * Venezuela: [https://labs.mercadopago.com.ve/developers](https://labs.mercadopago.com.ve/developers)
+    * Colombia: [https://labs.mercadopago.com.co/developers](https://labs.mercadopago.com.co/developers)
+
+<a name="generic-methods"></a>
+## Generic methods
+
+You can access any other resource from the MercadoPago API using the generic methods:
+
+```C#
+// Get a resource, with optional URL params. Also you can disable authentication for public APIs
+mp.get ("/resource/uri", [params], [authenticate=true]);
+
+// Create a resource with "data" and optional URL params.
+mp.post ("/resource/uri", data, [params]);
+
+// Update a resource with "data" and optional URL params.
+mp.put ("/resource/uri", data, [params]);
+
+// Delete a resource with optional URL params.
+mp.delete ("/resource/uri", [params]);
+```
+
+ For example, if you want to get the Sites list (no params and no authentication):
+
+```C#
+Hashtable result = mp.get ("/sites", null, false);
+
+Response.Write(result);
+```
