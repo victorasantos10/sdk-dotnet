@@ -16,16 +16,33 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.3.1";
+		public static readonly String version = "0.3.2";
 
-		private readonly String client_id;
-		private readonly String client_secret;
+		private readonly String client_id = null;
+		private readonly String client_secret = null;
+		private readonly String ll_access_token = null;
 		private Hashtable access_data = null;
 		private bool sandbox = false;
 		
+		/**
+		 * Instantiate MP with credentials
+		 * @param client_id
+		 * @param client_secret
+		 * @return An access_token to use with the API
+		 */
 		public MP (String client_id, String client_secret) {
 			this.client_id = client_id;
 			this.client_secret = client_secret;
+		}
+		
+		/**
+		 * Instantiate MP with Long Live Access Token
+		 * @param client_id
+		 * @param client_secret
+		 * @return An access_token to use with the API
+		 */
+		public MP (String ll_access_token) {
+			this.ll_access_token = ll_access_token;
 		}
 
 		public bool sandboxMode () {
@@ -42,6 +59,10 @@ namespace mercadopago {
 		 * Get Access Token for API use
 		 */
 		public String getAccessToken () {
+			if(this.ll_access_token != null) {
+				return this.ll_access_token;
+			}
+
 			Dictionary<String, String> appClientValues = new Dictionary<String, String> ();
 			appClientValues.Add ("grant_type", "client_credentials");
 			appClientValues.Add ("client_id", this.client_id);
@@ -291,13 +312,13 @@ namespace mercadopago {
 		/**
 		 * Generic resource get
 		 * @param uri
-		 * @param params
+		 * @param parameters
 		 * @param authenticate
 		 * @return
 		 */
-		public Hashtable get (String uri, Dictionary<String, String> params, bool authenticate) {
-			if (params == null) {
-				params = new Dictionary<String, String> ();
+		public Hashtable get (String uri, Dictionary<String, String> parameters, bool authenticate) {
+			if (parameters == null) {
+				parameters = new Dictionary<String, String> ();
 			}
 			if (authenticate) {
 				String accessToken;
@@ -307,11 +328,11 @@ namespace mercadopago {
 					return (Hashtable) JSON.JsonDecode(e.Message);
 				}
 
-				params.Add ("access_token", accessToken);
+				parameters.Add ("access_token", accessToken);
 			}
 
-			if (params.Count > 0) {
-				uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			if (parameters.Count > 0) {
+				uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (parameters);
 			}
 			
 			Hashtable result = RestClient.get (uri);
@@ -331,11 +352,11 @@ namespace mercadopago {
 		/**
 		 * Generic resource get
 		 * @param uri
-		 * @param params
+		 * @param parameters
 		 * @return
 		 */
-		public Hashtable get (String uri, Dictionary<String, String> params) {
-			return this.get (uri, params, true);
+		public Hashtable get (String uri, Dictionary<String, String> parameters) {
+			return this.get (uri, parameters, true);
 		}
 
 		/**
@@ -347,16 +368,16 @@ namespace mercadopago {
 		public Hashtable post (String uri, String data) {
 			return this.post (uri, data, null);
 		}
-		public Hashtable post (String uri, String data, Dictionary<String, String> params) {
+		public Hashtable post (String uri, String data, Dictionary<String, String> parameters) {
 			Hashtable dataJSON = (Hashtable) JSON.JsonDecode (data);
-			return this.post (uri, dataJSON, params);
+			return this.post (uri, dataJSON, parameters);
 		}
 		public Hashtable post (String uri, Hashtable data) {
 			return this.post (uri, data, null);
 		}
-		public Hashtable post (String uri, Hashtable data, Dictionary<String, String> params) {
-			if (params == null) {
-				params = new Dictionary<String, String> ();
+		public Hashtable post (String uri, Hashtable data, Dictionary<String, String> parameters) {
+			if (parameters == null) {
+				parameters = new Dictionary<String, String> ();
 			}
 
 			String accessToken;
@@ -366,9 +387,9 @@ namespace mercadopago {
 				return (Hashtable) JSON.JsonDecode(e.Message);
 			}
 
-			params.Add ("access_token", accessToken);
+			parameters.Add ("access_token", accessToken);
 
-			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (parameters);
 			
 			Hashtable result = RestClient.post (uri, data);
 			return result;
@@ -383,16 +404,16 @@ namespace mercadopago {
 		public Hashtable put (String uri, String data) {
 			return this.put (uri, data, null);
 		}
-		public Hashtable put (String uri, String data, Dictionary<String, String> params) {
+		public Hashtable put (String uri, String data, Dictionary<String, String> parameters) {
 			Hashtable dataJSON = (Hashtable) JSON.JsonDecode (data);
-			return this.put (uri, dataJSON, params);
+			return this.put (uri, dataJSON, parameters);
 		}
 		public Hashtable put (String uri, Hashtable data) {
 			return this.put (uri, data, null);
 		}
-		public Hashtable put (String uri, Hashtable data, Dictionary<String, String> params) {
-			if (params == null) {
-				params = new Dictionary<String, String> ();
+		public Hashtable put (String uri, Hashtable data, Dictionary<String, String> parameters) {
+			if (parameters == null) {
+				parameters = new Dictionary<String, String> ();
 			}
 
 			String accessToken;
@@ -402,9 +423,9 @@ namespace mercadopago {
 				return (Hashtable) JSON.JsonDecode(e.Message);
 			}
 
-			params.Add ("access_token", accessToken);
+			parameters.Add ("access_token", accessToken);
 
-			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (parameters);
 			
 			Hashtable result = RestClient.put (uri, data);
 			return result;
@@ -413,15 +434,15 @@ namespace mercadopago {
 		/**
 		 * Generic resource delete
 		 * @param uri
-		 * @param params
+		 * @param parameters
 		 * @return
 		 */
 		public Hashtable delete (String uri) {
 			return this.delete (uri, null);
 		}
-		public Hashtable delete (String uri, Dictionary<String, String> params) {
-			if (params == null) {
-				params = new Dictionary<String, String> ();
+		public Hashtable delete (String uri, Dictionary<String, String> parameters) {
+			if (parameters == null) {
+				parameters = new Dictionary<String, String> ();
 			}
 
 			String accessToken;
@@ -431,9 +452,9 @@ namespace mercadopago {
 				return (Hashtable) JSON.JsonDecode(e.Message);
 			}
 
-			params.Add ("access_token", accessToken);
+			parameters.Add ("access_token", accessToken);
 
-			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (params);
+			uri += (uri.Contains("?") ? "&" : "?") + this.buildQuery (parameters);
 			
 			Hashtable result = RestClient.delete (uri);
 			return result;
@@ -460,7 +481,7 @@ namespace mercadopago {
 		}
 		
 		private static class RestClient {
-			private const String API_BASE_URL = "https://api.mercadolibre.com";
+			private const String API_BASE_URL = "https://api.mercadopago.com";
 			public const String MIME_JSON = "application/json";
 			public const String MIME_FORM = "application/x-www-form-urlencoded";
 			
