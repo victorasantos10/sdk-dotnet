@@ -21,6 +21,7 @@ Copy `bin/mercadopago.dll` to your project desired folder.
     * México: [https://www.mercadopago.com/mlm/herramientas/aplicaciones](https://www.mercadopago.com/mlm/herramientas/aplicaciones)
     * Venezuela: [https://www.mercadopago.com/mlv/herramientas/aplicaciones](https://www.mercadopago.com/mlv/herramientas/aplicaciones)
     * Colombia: [https://www.mercadopago.com/mco/herramientas/aplicaciones](https://www.mercadopago.com/mco/herramientas/aplicaciones)
+    * Chile: [https://www.mercadopago.com/mlc/herramientas/aplicaciones](https://www.mercadopago.com/mlc/herramientas/aplicaciones)
 
 ```CS
 using mercadopago;
@@ -136,11 +137,11 @@ mp.get ("/v1/customers/CUSTOMER_ID");
 ```
 
 * View more Custom checkout related APIs in Developers Site
-    * Argentina: [https://labs.mercadopago.com.ar/developers](https://labs.mercadopago.com.ar/developers)
-    * Brazil: [https://labs.mercadopago.com.br/developers](https://labs.mercadopago.com.br/developers)
-    * Mexico: [https://labs.mercadopago.com.mx/developers](https://labs.mercadopago.com.mx/developers)
-    * Venezuela: [https://labs.mercadopago.com.ve/developers](https://labs.mercadopago.com.ve/developers)
-    * Colombia: [https://labs.mercadopago.com.co/developers](https://labs.mercadopago.com.co/developers)
+    * Argentina: [https://www.mercadopago.com.ar/developers](https://www.mercadopago.com.ar/developers)
+    * Brazil: [https://www.mercadopago.com.br/developers](https://www.mercadopago.com.br/developers)
+    * Mexico: [https://www.mercadopago.com.mx/developers](https://www.mercadopago.com.mx/developers)
+    * Venezuela: [https://www.mercadopago.com.ve/developers](https://www.mercadopago.com.ve/developers)
+    * Colombia: [https://www.mercadopago.com.co/developers](https://www.mercadopago.com.co/developers)
 
 <a name="generic-methods"></a>
 ## Generic methods
