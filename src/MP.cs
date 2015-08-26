@@ -16,7 +16,7 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.3.2";
+		public static readonly String version = "0.3.3";
 
 		private readonly String client_id = null;
 		private readonly String client_secret = null;
@@ -485,15 +485,11 @@ namespace mercadopago {
 			public const String MIME_JSON = "application/json";
 			public const String MIME_FORM = "application/x-www-form-urlencoded";
 			
-			private static bool AcceptAllCertifications (object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors) {
-				return true;
-			}
-			
 			private static Hashtable exec (String method, String uri, Object data, String contentType) {
 				Hashtable response;
 				
-				ServicePointManager.ServerCertificateValidationCallback = new System.Net.Security.RemoteCertificateValidationCallback (AcceptAllCertifications);
 				HttpWebRequest request = (HttpWebRequest)WebRequest.Create (API_BASE_URL + uri);
+
 				request.UserAgent = "MercadoPago .NET SDK v"+MP.version;
 				request.Accept = MIME_JSON;
 				request.Method = method;
@@ -504,10 +500,12 @@ namespace mercadopago {
 				try {
 					HttpWebResponse apiResult = (HttpWebResponse)request.GetResponse ();
 					responseBody = new StreamReader (apiResult.GetResponseStream ()).ReadToEnd ();
+
 					response = new Hashtable();
 					response["status"] = (int) apiResult.StatusCode;
 					response["response"] = JSON.JsonDecode(responseBody);
 				} catch (WebException e) {
+					Console.WriteLine (e.Message);
 					responseBody = new StreamReader (e.Response.GetResponseStream ()).ReadToEnd ();
 					try {
 						response = new Hashtable();
