@@ -62,15 +62,14 @@ Response.Write(preference);
 ```CS
 // Sets the filters you want
 Dictionary<String, String> filters = new Dictionary<String, String> ();
-    filters.Add("site_id", "MLA"); // Argentina: MLA; Brasil: MLB; Mexico: MLM; Venezuela: MLV; Colombia: MCO
     filters.Add("external_reference", "Bill001");
       
 // Search payment data according to filters
 Hashtable searchResult = mp.searchPayment (filters);
 
 foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
-    Response.Write(payment["collection"]["id"]);
-    Response.Write(payment["collection"]["status"]);
+    Response.Write(payment["id"]);
+    Response.Write(payment["status"]);
 }
 ```
 

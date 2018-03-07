@@ -27,7 +27,7 @@
             filters.Add("range", "date_created");
             filters.Add("begin_date", "2011-10-21T00:00:00Z");
             filters.Add("end_date", "2011-10-25T24:00:00Z");
-            filters.Add("payment_type", "credit_card");
+            filters.Add("payment_type_id", "credit_card");
             filters.Add("operation_type", "regular_payment");
 
         // Search payment data according to filters
@@ -36,14 +36,14 @@
         // Show payment information
         %>
         <table border='1'>
-            <tr><th>id</th><th>site_id</th><th>external_reference</th><th>status</th></tr>
+            <tr><th>id</th><th>external_reference</th><th>status</th></tr>
             <%
             foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
                 %>
                 <tr>
-                    <td><%=payment["collection"]["id"]%></td>
-                    <td><%=payment["collection"]["external_reference"]%></td>
-                    <td><%=payment["collection"]["status"]%></td>
+                    <td><%=payment["id"]%></td>
+                    <td><%=payment["external_reference"]%></td>
+                    <td><%=payment["status"]%></td>
                 </tr>
                 <%
             }
