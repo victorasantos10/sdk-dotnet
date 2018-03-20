@@ -24,14 +24,14 @@
       
         // Sets the filters you want
 		Dictionary<String, String> filters = new Dictionary<String, String> ();
-			filters.Add("site_id", "MLA"); // Argentina: MLA; Brasil: MLB
+			filters.Add("filter_A", "value_A");
       
         // Search payment data according to filters
         Hashtable searchResult = mp.searchPayment (filters);
         
         // Show payment information
             foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
-                Response.Write(payment["collection"]["id"]+"<br>");
+                Response.Write(payment["id"]+"<br>");
             }
             %>
     </body>

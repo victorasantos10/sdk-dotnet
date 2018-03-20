@@ -36,16 +36,15 @@
         // Show payment information
         %>
         <table border='1'>
-            <tr><th>id</th><th>site_id</th><th>external_reference</th><th>status</th></tr>
+            <tr><th>id</th><th>date_created</th><th>operation_type</th><th>external_reference</th></tr>
             <%
             foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
                 %>
                 <tr>
-                    <td><%=payment["collection"]["id"]%></td>
-                    <td><%=payment["collection"]["site_id"]%></td>
-                    <td><%=payment["collection"]["date_created"]%></td>
-                    <td><%=payment["collection"]["operation_type"]%></td>
-                    <td><%=payment["collection"]["external_reference"]%></td>
+                    <td><%=payment["id"]%></td>
+                    <td><%=payment["date_created"]%></td>
+                    <td><%=payment["operation_type"]%></td>
+                    <td><%=payment["external_reference"]%></td>
                 </tr>
                 <%
             }

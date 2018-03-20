@@ -16,7 +16,7 @@ namespace mercadopago {
 	 *
 	 */
 	public class MP {
-		public static readonly String version = "0.3.3";
+		public static readonly String version = "0.3.4";
 
 		private readonly String client_id = null;
 		private readonly String client_secret = null;
@@ -95,7 +95,7 @@ namespace mercadopago {
 
 			String uriPrefix = this.sandbox ? "/sandbox" : "";
 			
-			Hashtable paymentInfo = RestClient.get (uriPrefix + "/collections/notifications/" + id + "?access_token=" + accessToken);
+			Hashtable paymentInfo = RestClient.get ("/v1/payments/" + id + "?access_token=" + accessToken);
 			
 			return paymentInfo;
 		}
@@ -136,9 +136,8 @@ namespace mercadopago {
 			}
 
 			Hashtable refundStatus = new Hashtable();
-			refundStatus["status"] = "refunded";
 			
-			Hashtable response = RestClient.put ("/collections/" + id + "?access_token=" + accessToken, refundStatus);
+			Hashtable response = RestClient.post ("/v1/payments/" + id + "/refunds?access_token=" + accessToken, refundStatus);
 			
 			return response;
 		}
@@ -159,7 +158,7 @@ namespace mercadopago {
 			Hashtable cancelStatus = new Hashtable();
 			cancelStatus["status"] = "cancelled";
 			
-			Hashtable response = RestClient.put ("/collections/" + id + "?access_token=" + accessToken, cancelStatus);
+			Hashtable response = RestClient.put ("/v1/payments/" + id + "?access_token=" + accessToken, cancelStatus);
 			
 			return response;
 		}
@@ -207,7 +206,7 @@ namespace mercadopago {
 			
 			String uriPrefix = this.sandbox ? "/sandbox" : "";
 			
-			Hashtable collectionResult = RestClient.get (uriPrefix + "/collections/search?"+filtersQuery+"&access_token="+accessToken);
+			Hashtable collectionResult = RestClient.get ("/v1/payments/search?"+filtersQuery+"&access_token="+accessToken);
 			return collectionResult;
 		}
 	

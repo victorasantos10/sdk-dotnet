@@ -25,7 +25,7 @@
         // Sets the filters you want
 		Dictionary<String, String> filters = new Dictionary<String, String> ();
             filters.Add("installments", "12");
-            filters.Add("reason", "product_name");
+            filters.Add("description", "product_name");
             filters.Add("operation_type", "regular_payment");
       
         // Search payment data according to filters
@@ -34,14 +34,14 @@
         // Show payment information
         %>
         <table border='1'>
-            <tr><th>id</th><th>site_id</th><th>external_reference</th><th>status</th></tr>
+            <tr><th>id</th><th>external_reference</th><th>status</th></tr>
             <%
             foreach (Hashtable payment in searchResult.SelectToken ("response.results")) {
                 %>
                 <tr>
-                    <td><%=payment["collection"]["id"]%></td>
-                    <td><%=payment["collection"]["external_reference"]%></td>
-                    <td><%=payment["collection"]["status"]%></td>
+                    <td><%=payment["id"]%></td>
+                    <td><%=payment["external_reference"]%></td>
+                    <td><%=payment["status"]%></td>
                 </tr>
                 <%
             }
