@@ -1,5 +1,5 @@
 
-**Warning:** We recommend try to use our new SDK Version [dx-dotnet](https://github.com/mercadopago/dx-dotnet)
+**Warning:** We recommend try to use our new SDK [dx-dotnet](https://github.com/mercadopago/dx-dotnet)
 
 # MercadoPago SDK module for Payments integration
 
