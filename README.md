@@ -1,9 +1,13 @@
+
+**Warning:** We recommend try to use our new SDK Version [dx-dotnet](https://github.com/mercadopago/dx-dotnet)
+
 # MercadoPago SDK module for Payments integration
 
 * [Install](#install)
 * [Basic checkout](#basic-checkout)
 * [Customized checkout](#custom-checkout)
 * [Generic methods](#generic-methods)
+
 
 <a name="install"></a>
 ## Install
