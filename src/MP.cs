@@ -497,7 +497,8 @@ namespace mercadopago {
 				
 				String responseBody = null;
 				try {
-					HttpWebResponse apiResult = (HttpWebResponse)request.GetResponse ();
+                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                    HttpWebResponse apiResult = (HttpWebResponse)request.GetResponse ();
 					responseBody = new StreamReader (apiResult.GetResponseStream ()).ReadToEnd ();
 
 					response = new Hashtable();
