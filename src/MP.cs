@@ -490,7 +490,6 @@ namespace mercadopago {
                 ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create (API_BASE_URL + uri);
 
-                request.KeepAlive = false;
 				request.UserAgent = "MercadoPago .NET SDK v"+MP.version;
 				request.Accept = MIME_JSON;
 				request.Method = method;
