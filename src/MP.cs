@@ -487,8 +487,10 @@ namespace mercadopago {
 			private static Hashtable exec (String method, String uri, Object data, String contentType) {
 				Hashtable response;
 				
-				HttpWebRequest request = (HttpWebRequest)WebRequest.Create (API_BASE_URL + uri);
+                ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create (API_BASE_URL + uri);
 
+                request.KeepAlive = false;
 				request.UserAgent = "MercadoPago .NET SDK v"+MP.version;
 				request.Accept = MIME_JSON;
 				request.Method = method;
@@ -497,13 +499,13 @@ namespace mercadopago {
 				
 				String responseBody = null;
 				try {
-                    ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
                     HttpWebResponse apiResult = (HttpWebResponse)request.GetResponse ();
 					responseBody = new StreamReader (apiResult.GetResponseStream ()).ReadToEnd ();
 
 					response = new Hashtable();
 					response["status"] = (int) apiResult.StatusCode;
 					response["response"] = JSON.JsonDecode(responseBody);
+                    apiResult.Close();
 				} catch (WebException e) {
 					Console.WriteLine (e.Message);
 					responseBody = new StreamReader (e.Response.GetResponseStream ()).ReadToEnd ();
@@ -518,6 +520,7 @@ namespace mercadopago {
 					}
 				}
 				
+                
 				return response;
 			}
 			
